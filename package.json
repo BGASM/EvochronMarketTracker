@@ -14,7 +14,7 @@
     "outputPath": "dist"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "node server",
     "build": "vite build",
     "preview": "vite preview",
     "package": "npm run build && pkg . --targets latest-win --output dist/evochron_legacy_market_tracker.exe"

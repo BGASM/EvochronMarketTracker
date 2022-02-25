@@ -32,8 +32,8 @@ class Server {
 
         const options = {
             token: '',
-            repo: 'X4-External-App',
-            owner: 'mycumycu',
+            repo: 'EvochronMarketTracker',
+            owner: 'BGASM',
             currentVersion: version,
         };
 
@@ -49,7 +49,7 @@ class Server {
             console.error(chalk.red(`Couldn't connect to github server to check updates.`));
         });
 
-        this.outputMessage(chalk.green(`X4 External App Server v${version}`));
+        this.outputMessage(chalk.green(`Evochron Market Tracker Server v${version}`));
     }
 
     /**
@@ -135,9 +135,10 @@ class Server {
                     return
                 }
 
-                data = data.replace(/\\/g, '')
-                this.dataObject = JSON.parse(data);
+                data = data.replace(/\\/g, '')                
+                //this.dataObject = JSON.parse(data);
                 this.outputMessage(`${chalk.yellowBright('Development mode')} - reading data from file successful`);
+                this.outputMessage(`${chalk.yellowBright('Development mode')}` + data);
             });
         })
     }
@@ -169,5 +170,5 @@ class Server {
 let server = new Server(app, hostname, port);
 server.checkVersion();
 server.dataFeed();
-server.setApi();
-server.serve();
+//server.setApi();
+//server.serve();
