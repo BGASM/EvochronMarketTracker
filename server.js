@@ -11,6 +11,7 @@ const hostname = process.env.APP_HOST || '127.0.0.1';
 const port = process.env.APP_PORT || 8080;
 
 const chalk = require('chalk');
+var category = fs.readFileSync("./debug/savedatacategory.txt", "utf-8").split('\n');
 
 class Server {
     dataObject = {};
@@ -135,13 +136,25 @@ class Server {
                     return
                 }
 
-                data = data.replace(/\\/g, '')                
-                //this.dataObject = JSON.parse(data);
-                this.outputMessage(`${chalk.yellowBright('Development mode')} - reading data from file successful`);
+                var data = this.parseTextFile(data)
+                data = data.replace(/\\r/g, '')
+                this.dataObject = JSON.parse(data);
                 this.outputMessage(`${chalk.yellowBright('Development mode')}` + data);
+                //this.dataObject = JSON.parse(data);
+                this.outputMessage(`${chalk.yellowBright('Development mode')} - reading data from file successful`);                
             });
         })
     }
+
+    parseTextFile(data) {        
+        data = data.split('\n')
+        var result =  data.reduce(function(result, field, index) {
+            result[category[index]] = field;
+            return result;
+          }, {})        
+        return JSON.stringify(result);
+    }
+
 
     /**
      *
