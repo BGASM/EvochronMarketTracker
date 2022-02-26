@@ -15,7 +15,7 @@
             <!-- First column (player profile / active mission) -->
             <div :class="`order-${this.appViewProfile[0]}`" class="col-lg-3 app-column-1  d-flex flex-column">
               <player-profile :gameData="gameData.player"/>
-              <active-mission :gameData="gameData.activeMissions"/>
+              <active-mission :gameData="gameData.contracts"/>
             </div>
 
             <!-- Second column (mission offers) -->

@@ -5,7 +5,7 @@
         <div class="card card-profile mb-4 no-connection">
           <div class="card-header x4-backgound"></div>
           <div class="card-body text-center">
-            <img class="card-profile-img" src="../assets/x4-logo.png" title="..." alt="X4 logo"/>
+            <img class="card-profile-img" src="../assets/evo-logo.png" title="..." alt="Evochron logo"/>
             <div class="mb-2">
               <h3 class="mb-0 text-gray-400 highlighted">
                 Waiting for connection

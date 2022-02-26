@@ -1,0 +1,14 @@
+module.exports = {    
+        'development': {          
+          'storage': './database.sqlite3',
+          'dialect': 'sqlite'
+        },
+        'test': {          
+          'storage': './database.sqlite3',
+          'dialect': 'sqlite'
+        },
+        'production': {          
+          'storage': './database.sqlite3',
+          'dialect': 'sqlite'
+        }
+};
