@@ -1,6 +1,6 @@
 <template>
   <div class="card card-profile mb-4">
-    <div class="card-header x4-backgound"></div>
+    <div class="card-header evo-backgound"></div>
     <div class="card-body text-center">
       <img class="card-profile-img" src="../assets/evo-logo.png" title="..."/>
       <div class="mb-2">

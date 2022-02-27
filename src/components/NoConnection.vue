@@ -3,7 +3,7 @@
     <div class="row justify-content-center mt-5">
       <div class="col-sm-8 mt-2">
         <div class="card card-profile mb-4 no-connection">
-          <div class="card-header x4-backgound"></div>
+          <div class="card-header evo-backgound"></div>
           <div class="card-body text-center">
             <img class="card-profile-img" src="../assets/evo-logo.png" title="..." alt="Evochron logo"/>
             <div class="mb-2">
@@ -13,7 +13,7 @@
               <div class="mb-2">
                 There's no water in the pipe...
               </div>
-              <small class="pt-2 info">Check if SirNuke's Python Pipe Server and X4 External App are both running.<br/>Game save should also be loaded.</small>
+              <small class="pt-2 info">Check that you have the right path for your savedata file in config, and that Evochron Market Tracker is running.</small>
             </div>
           </div>
         </div>

@@ -18,14 +18,9 @@
               <active-mission :gameData="gameData.contracts"/>
             </div>
 
-            <!-- Second column (mission offers) -->
-            <div :class="`order-${this.appViewProfile[1]}`" class="col-lg-4 app-column-2 ">
-              <mission-offers :gameData="gameData.missionOffers"/>
-            </div>
-
             <!-- Third column (logbook) -->
-            <div :class="`order-${this.appViewProfile[2]}`" class="col-lg-5 app-column-3 ">
-              <logbook :gameData="gameData.logbook"/>
+            <div :class="`order-${this.appViewProfile[2]}`" class="col-lg-9 app-column-3 ">
+              <economy :econData="econData"/>
             </div>
           </div>
         </div>
@@ -36,16 +31,14 @@
 
 <script>
 
-import PlayerProfile from './PlayerProfile.vue'
-import ActiveMission from "./ActiveMission.vue";
-import MissionOffers from "./MissionOffers.vue";
-import Logbook from "./Logbook.vue";
-import SearchBar from "./SearchBar.vue";
+import PlayerProfile from './PlayerProfile.vue';
+import Economy from "./Economy.vue";
 import NoConnection from "./NoConnection.vue";
 import Breadcrumb from "./Breadcrumb.vue";
+import ShipStats from "./ShipStats.vue";
 
 export default {
-  components: { Logbook, Breadcrumb, NoConnection, SearchBar, MissionOffers, ActiveMission, PlayerProfile },
+  components: { Economy, Breadcrumb, NoConnection, ShipStats, PlayerProfile },
   emits: [
     'updatePending'
   ],
@@ -57,11 +50,9 @@ export default {
 
       gameData: {
         player: null,
-        activeMissions: null,
-        missionOffers: null,
-        logbook: null,
+        contracts: null,        
       },
-
+      econData: [],
       appViewProfile: [],
       dataFetchError: false,
     }
@@ -80,8 +71,6 @@ export default {
     },
   },
   methods: {
-    /**
-     */
     async getData() {
       try {
         await fetch(`/api/data`, {
@@ -93,7 +82,27 @@ export default {
               if (gameData) {
                 this.gameData = gameData;
                 this.$emit('updatePending', gameData.updatePending)
-
+                this.dataFetchError = false;
+              }
+              else this.dataFetchError = true;
+            })
+      } catch (e) {
+        if (process.env.NODE_ENV || 'development') {
+          console.log(e)
+        }
+        this.dataFetchError = true;
+      }
+    },
+    async getEcon() {
+      try {
+        await fetch(`/api/econ`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        }).then(response => response.text())
+            .then((response) => {
+              let econData = JSON.parse(response);
+              if (econData) {
+                this.econData = econData;                
                 this.dataFetchError = false;
               }
               else this.dataFetchError = true;
@@ -107,9 +116,6 @@ export default {
     },
   },
 
-  /**
-   *
-   */
   mounted() {
     let dataFetchInterval = 2000;
     this.appViewProfile = JSON.parse(localStorage.getItem("appProfile")) || []
@@ -117,6 +123,7 @@ export default {
     this.getData();
     setInterval(() => {
       this.getData();
+      this.getEcon();
     }, dataFetchInterval)
   },
 

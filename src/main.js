@@ -17,6 +17,23 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 
+import PrimeVue from 'primevue/config';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Row from 'primevue/row';
+import ColumnGroup from 'primevue/columngroup';
+
+
 
 library.add(faSearch, faTimes, faThLarge, faCoins, faUserFriends, faFont, faCogs, faTrashAlt)
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(PerfectScrollbar).mount('#app')
+const app = createApp(App);
+app.use(PrimeVue);
+app.use(PerfectScrollbar);
+
+app.component('font-awesome-icon', FontAwesomeIcon);
+app.component('DataTable', DataTable);
+app.component('Column', Column);
+app.component('Row', Row);
+app.component('ColumnGroup', ColumnGroup);
+
+app.mount('#app')

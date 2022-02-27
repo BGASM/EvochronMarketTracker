@@ -3,11 +3,11 @@
     <nav class="navbar navbar-expand-lg py-2 bg-dash-dark-2 border-bottom border-dash-dark-1 z-index-10">
       <div class="container-fluid d-flex align-items-center justify-content-between py-1">
         <div class="navbar-header d-flex align-items-center"><a class="navbar-brand text-uppercase text-reset" href="index.html">
-          <div class="brand-text brand-big"><strong class="text-primary">X4</strong><strong>External<span>App</span></strong></div>
-          <div class="brand-text brand-sm"><strong class="text-primary">X4</strong><strong>APP</strong></div>
+          <div class="brand-text brand-big"><strong class="text-primary">Evo</strong><strong>Market<span><small>Tracker</small></span></strong></div>
+          <div class="brand-text brand-sm"><strong class="text-primary">EVO</strong><strong>APP</strong></div>
         </a>
         </div>
-        <div v-if="this.isPendingUpdate">New version is out. <a href="https://github.com/mycumycu/X4-External-App/releases" target="_blank">Download it from github.</a></div>
+        <div v-if="this.isPendingUpdate">New version is out. <a href="https://github.com/BGASM/EvochronMarketTracker/releases" target="_blank">Download it from github.</a></div>
         <ul class="list-inline mb-0">
           <!-- Profiles dropdown -->
           <li class="list-inline-item dropdown px-lg-2">
@@ -19,13 +19,10 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink1">
               <li><a class="dropdown-item d-flex align-items-center" href="#" @click="setAppViewProfile([1,2,3])">
-                <div class="ms-3"><strong class="d-block">Set profile #1</strong><span class="d-block text-xs">User profile / Mission offers / Logbook</span></div>
+                <div class="ms-3"><strong class="d-block">Set profile #1</strong><span class="d-block text-xs">User profile / Market Tracker</span></div>
               </a></li>
               <li><a class="dropdown-item d-flex align-items-center" href="#" @click="setAppViewProfile([3,2,1])">
-                <div class="ms-3"><strong class="d-block">Set profile #2</strong><span class="d-block text-xs">Logbook / Mission offers / User profile</span></div>
-              </a></li>
-              <li><a class="dropdown-item d-flex align-items-center" href="#" @click="setAppViewProfile([2,1,3])">
-                <div class="ms-3"><strong class="d-block">Set profile #3</strong><span class="d-block text-xs">Mission offers / User profile / Logbook</span></div>
+                <div class="ms-3"><strong class="d-block">Set profile #2</strong><span class="d-block text-xs">Market Tracker / User profile</span></div>
               </a></li>
             </ul>
           </li>

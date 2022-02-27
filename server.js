@@ -12,14 +12,15 @@ const hostname = process.env.APP_HOST || '127.0.0.1';
 const port = process.env.APP_PORT || 8080;
 
 const chalk = require('chalk');
-var category = fs.readFileSync("./debug/savedatacategory.txt", "utf-8").split('\n');
+var category = fs.readFileSync("./static/savedatacategory.txt", "utf-8").split('\n');
 var sorter = require('sorter');
 const db = require('./models');
 
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: './database.sqlite'
+    storage: './database.sqlite',
+    logging: false
   });
 
 
@@ -34,9 +35,6 @@ class Server {
         this.port = port;
     }
 
-    /**
-     * Check if new release is out
-     */
     checkVersion() {
         const versionCheck = require('github-version-checker');
         const { version } = require('./package.json');
@@ -63,9 +61,6 @@ class Server {
         this.outputMessage(chalk.green(`Evochron Market Tracker Server v${version}`));
     }
 
-    /**
-     *
-     */
     serve() {
 
         let serveStatic = require('serve-static');
@@ -86,72 +81,24 @@ class Server {
         });
     }
 
-    /**
-     * Read from a named pipe or file
-     */
     dataFeed() {
-        process.env.DATA_SOURCE === 'pipe' ? this.readFromPipe() : this.readFromFile();
-    }
+        this.readFromFile();
+    }    
 
-    /**
-     *
-     */
-    readFromPipe() {
-        try {
-            const fd = fs.openSync(process.env.PIPE_NAME, 'r+')
-
-            const stream = fs.createReadStream(null, { fd })
-            //stream.setEncoding('utf8');
-            stream.on('data', (d) => {
-                try {
-                    let buffer = Buffer.from(d);
-                    this.dataObject = JSON.parse(buffer.toString());
-                    this.outputMessage('Correct data stream received.');
-                } catch (e) {
-                    this.dataObject = null;
-                    this.outputMessage('Invalid data stream format.');
-                }
-
-                if (d.toString().trim() === '[stdin end]') {
-                    return process.nextTick(() => {
-                        console.log(process.argv.slice(2))
-                    })
-                }
-                process.argv.push(d.toString())
-            }).on('error', () => {
-                this.dataObject = null;
-                this.outputMessage('Disconnected from pipe. Retrying...')
-                this.readFromPipe();
-
-            })
-        } catch (e) {
-            this.dataObject = null;
-            this.outputMessage('Pipe data stream not yet ready. Retrying... ');
-            setTimeout(() => {
-                this.readFromPipe();
-            }, 2000)
-        }
-    }
-
-    /**
-     * Development method
-     */
     readFromFile() {
         const chokidar = require('chokidar')
 
         chokidar.watch(process.env.DEV_FILE_PATH).on('all', (event, path) => {
-            fs.readFile(process.env.DEV_FILE_PATH, 'utf8', (err, data) => {
+            fs.readFile(process.env.DEV_FILE_PATH, 'utf8', (err, d) => {
                 if (err) {
                     console.error(err)
                     return
                 }
 
-                var data = this.parseTextFile(data)
-                data = data.replace(/\\r/g, '')
+                var data = this.parseTextFile(d).replace(/\\r/g, '')                
                 this.dataObject = sorter.sorted(JSON.parse(data));
-                this.updateEconDB();
-                this.outputMessage(`${chalk.yellowBright('Development mode')}` + JSON.stringify(this.dataObject));                
-                this.outputMessage(`${chalk.yellowBright('Development mode')} - reading data from file successful`);                
+                this.updateEconDB();                                
+                this.outputMessage(`${chalk.yellowBright('Development mode')} - reading data from file successful`);
             });
         })
     }
@@ -222,6 +169,17 @@ class Server {
             }
             res.json(this.dataObject);
         });
+
+        this.app.get('/api/econ', (req, res) => {
+            return db.Region.findAll({
+                attributes: ['region_id','system','economy_level','control','food_price','food_percent','medical_supplies_price','medical_supplies_percent','hydrogen_price','hydrogen_percent','electronics_price','electronics_percent','solar_price','solar_percent','metal_price','metal_percent','diamond_price','diamond_percent','antimatter_price','antimatter_percent','fusion_price','fusion_percent','machinery_price','machinery_percent','textiles_price','textiles_percent','platinum_price','platinum_percent','biological_price','biological_percent','oxygen_price','oxygen_percent','gold_price','gold_percent','silver_price','silver_percent','water_price','water_percent','armor_price','armor_percent']
+            })
+            .then((regions) => res.json(regions))
+            .catch((err) => {
+                this.outputMessage(`${chalk.yellowBright('Development mode')} - There was an error querying` + JSON.stringify(err))
+                return res.send(err)
+              });
+        });
     }
 
     /**
@@ -242,5 +200,4 @@ let server = new Server(app, hostname, port);
 server.checkVersion();
 server.dataFeed();
 server.setApi();
-
 server.serve();
