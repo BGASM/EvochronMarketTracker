@@ -1,12 +1,14 @@
 {
   "author": "BGASM",
   "name": "evochron_legacy_market_tracker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "bin": "server.js",
   "pkg": {
     "assets": [
       "node_modules/**/*",
-      "dist/**/*"
+      "dist/**/*",
+      "static/**/*",
+      "models/**/*"
     ],
     "targets": [
       "node16-win-x64"
@@ -33,6 +35,8 @@
     "local-ipv4-address": "^0.0.2",
     "nodemon": "^2.0.15",
     "portfinder": "^1.0.28",
+    "primeicons": "^5.0.0",
+    "primevue": "^3.12.0",
     "sequelize": "^6.17.0",
     "sequelize-cli": "^6.4.1",
     "sorter": "file:utils/sorter",
