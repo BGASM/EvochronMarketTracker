@@ -8,3 +8,4 @@ dist-ssr
 .theme
 .env
 .vscode
+.sqlite3
