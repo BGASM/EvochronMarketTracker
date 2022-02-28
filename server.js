@@ -78,19 +78,19 @@ class Server {
     }        
 
     readFromFile() {
-        this.outputMessage(`${chalk.yellowBright('Development mode')} - looking for savedata in ` + process.env.DEV_FILE_PATH);
+        this.outputMessage(`${chalk.yellowBright('Production mode')} - looking for savedata in ` + process.env.SAVEDATA_FILE_PATH);
         
-        chokidar.watch(process.env.DEV_FILE_PATH).on('all', (event, path) => {
-            fs.readFile(process.env.DEV_FILE_PATH, 'utf8', (err, d) => {
+        chokidar.watch(process.env.SAVEDATA_FILE_PATH).on('all', (event, path) => {
+            fs.readFile(process.env.SAVEDATA_FILE_PATH, 'utf8', (err, d) => {
                 if (err) {
-                    this.outputMessage(`${chalk.yellowBright('Development mode')} - encountered an error: ` + err)
+                    this.outputMessage(`${chalk.yellowBright('Production mode')} - encountered an error: ` + err)
                     return
                 }
 
                 var data = this.parseTextFile(d).replace(/\\r/g, '')                
                 this.dataObject = sorter.sorted(JSON.parse(data));
                 this.updateEconDB();                                
-                this.outputMessage(`${chalk.yellowBright('Development mode')} - reading data from file successful`);
+                this.outputMessage(`${chalk.yellowBright('Production mode')} - reading data from file successful`);
             });
         })
     }    
@@ -118,7 +118,7 @@ class Server {
             })
             .then((regions) => res.json(regions))
             .catch((err) => {
-                this.outputMessage(`${chalk.yellowBright('Development mode')} - There was an error querying` + JSON.stringify(err))
+                this.outputMessage(`${chalk.yellowBright('Production mode')} - There was an error querying` + JSON.stringify(err))
                 return res.send(err)
               });
         });
@@ -133,7 +133,7 @@ class Server {
 
     async updateEconDB() {    
         var d = this.dataObject.econ;
-        this.outputMessage(`${chalk.yellowBright('Development mode')} - looking for database`);
+        this.outputMessage(`${chalk.yellowBright('Production mode')} - looking for database`);
         await db.Region.upsert({
             region_id: parseInt(d.region_index_value.split('=')[1]),
             system: d.closest_gate,
@@ -180,7 +180,7 @@ class Server {
     
     async syncDB() {
         await db.sequelize.sync({ force: true });
-        this.outputMessage(`${chalk.yellowBright('Development mode')} - All models were synchronized successfully.`);
+        this.outputMessage(`${chalk.yellowBright('Production mode')} - All models were synchronized successfully.`);
     }
 
     async init() {
