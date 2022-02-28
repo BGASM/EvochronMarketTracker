@@ -9,3 +9,4 @@ dist-ssr
 .env
 .vscode
 database.sqlite3
+migrations/*

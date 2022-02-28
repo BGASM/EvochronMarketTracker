@@ -7,8 +7,10 @@
     "assets": [
       "node_modules/**/*",
       "dist/**/*",
-      "static/**/*",
-      "models/**/*"
+      "static/*.txt"      
+    ],
+    "scripts": [
+      "models/*.js"
     ],
     "targets": [
       "node16-win-x64"
@@ -33,7 +35,7 @@
     "express": "^4.17.2",
     "github-version-checker": "^2.2.0",
     "local-ipv4-address": "^0.0.2",
-    "nodemon": "^2.0.15",
+    "nodemon": "^2.0.15",    
     "portfinder": "^1.0.28",
     "primeicons": "^5.0.0",
     "primevue": "^3.12.0",
@@ -47,6 +49,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.0",
     "sass": "1.32.0",
-    "vite": "^2.7.2"
+    "vite": "^2.7.2",
+    "pkg": "^5.5.2"
   }
 }
